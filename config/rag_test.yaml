@@ -1,0 +1,13 @@
+path_7b: /home/pubw/proj/Qwen2-VL-7B-Instruct
+path_2b: /home/pubw/proj/Qwen2-VL-2B-Instruct
+json_path: /home/pubw/datasets/www25/train/train_task2.json
+image_path: /home/pubw/datasets/www25/train/images/
+save_path: save
+id:  rag_test
+model: rag
+pt_path: /home/pubw/proj/UserIntent/feat/no_word.pt
+image_Augmented: no_word
+clip_path: /home/pubw/proj/clip-vit-large-patch14
+key_words_path: /home/pubw/proj/UserIntent/utils/task2_text_frequency_top20.json
+rag_image_path: /home/pubw/proj/UserIntent/masked/layout/
+topk: 6

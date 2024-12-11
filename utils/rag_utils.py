@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-def mask_and_fill_with_external_values(image_path, polygons, output_path="output.jpg"):
+def mask_and_fill_with_external_values(image_path, polygons):
     """
     使用多边形区域外部值填充多边形区域。
     
@@ -22,6 +22,23 @@ def mask_and_fill_with_external_values(image_path, polygons, output_path="output
     # 3. 使用掩膜外部值进行填充
     result = cv2.inpaint(image, mask, inpaintRadius=3, flags=cv2.INPAINT_TELEA)
     
-    # 4. 保存结果
-    cv2.imwrite(output_path, result)
+
     return result
+
+def global_blur(image_path, blur_kernel=(89, 89)):
+    """
+    对图片进行全局模糊处理。
+    
+    :param image_path: 输入图片路径。
+    :param blur_kernel: 模糊核大小，例如 (25, 25)。
+    :param output_path: 输出图片路径。
+    """
+    # 1. 读取图片
+    image = cv2.imread(image_path)
+    if image is None:
+        raise ValueError("无法加载图片，请检查路径是否正确。")
+    
+    # 2. 全局模糊处理
+    blurred_image = cv2.GaussianBlur(image, blur_kernel, 0)
+
+    return blurred_image

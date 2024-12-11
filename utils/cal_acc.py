@@ -68,6 +68,6 @@ def cal_acc(jsonl_file):
 
 
 if __name__ == "__main__":
-    jsonl_file = "/home/pubw/proj/UserIntent/save/base_train_task2/12092104/output.jsonl"
+    jsonl_file = "/home/pubw/proj/UserIntent/save/rag_train_task2/12111732/output.jsonl"
     cal_acc(jsonl_file)
 

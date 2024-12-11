@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 
 
 class InferModel_base(nn.Module):
-    def __init__(self,path_2b='/home/pubw/proj/Qwen2-VL-2B-Instruct',path_7b='/home/pubw/proj/Qwen2-VL-7B-Instruct'):
+    def __init__(self,path_2b='/home/pubw/proj/Qwen2-VL-2B-Instruct',path_7b='/home/pubw/proj/Qwen2-VL-7B-Instruct',**kwargs):
         super().__init__()
         self.llm_2b=build_llm(path_2b)
         self.llm_7b=build_llm(path_7b)

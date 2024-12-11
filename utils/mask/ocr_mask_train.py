@@ -42,7 +42,7 @@ ocr_model= PaddleOCR(lang='ch')
 logging.getLogger('ppocr').setLevel(logging.ERROR)
 train_json="/home/pubw/datasets/www25/train/train_task2.json"
 image_path="/home/pubw/datasets/www25/train/images/"
-save_path="/home/pubw/proj/UserIntent/masked/remain_key/"
+save_path="/home/pubw/proj/UserIntent/masked/no_word/"
 key_words=json.load(open('/home/pubw/proj/UserIntent/utils/task2_text_frequency_top20.json'))
 os.makedirs(save_path, exist_ok=True)
 json_file=json.load(open(train_json))
@@ -71,8 +71,8 @@ for item in tqdm(json_file):
             #print(ocr_tiem[1])
             #print(key_words[item['output']])
             #print(jieba.lcut(ocr_tiem[1][0]))
-            if any(keyword in jieba.lcut(ocr_tiem[1][0]) for keyword in key_words[item['output']]):
-                continue
+            #if any(keyword in jieba.lcut(ocr_tiem[1][0]) for keyword in key_words[item['output']]):
+                #continue
             #print(ocr_tiem[1])
             mask_list.append(ocr_tiem[0])
         mask_and_fill_with_external_values(img,mask_list,save_path+img.split("/")[-1])

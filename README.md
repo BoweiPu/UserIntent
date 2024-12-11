@@ -14,8 +14,8 @@
 ## 使用说明
 ### config 文件
 ```
-7b_path: /home/pubw/proj/Qwen2-VL-7B-Instruct
-2b_path: /home/pubw/proj/Qwen2-VL-2B-Instruct
+path_7b: /home/pubw/proj/Qwen2-VL-7B-Instruct
+path_2b: /home/pubw/proj/Qwen2-VL-2B-Instruct
 json_path: /home/pubw/datasets/www25/test1/test1.json
 image_path: /home/pubw/datasets/www25/test1/images
 save_path: save
@@ -29,7 +29,7 @@ id: base
 - 添加build文件参数 [代码](builder/inferModel_builder.py)
 ```
 if config['model']=='cot':
-    return infer_cot(config['2b_path'],config['7b_path'])
+    return infer_cot(config['path_2b'],config['path_7b'])
 ```
  - 输入是未经处理的json item 处理为qwen的输入后用LLM推理,调用
  ```

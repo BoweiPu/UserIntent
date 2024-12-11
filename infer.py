@@ -54,8 +54,10 @@ def eval_model(args):
     save_path, log_path = set_save_path(config, args.num_chunks, args.chunk_idx)
     
     # 配置日志
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
     logging.basicConfig(filename=log_path, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    
+    logging.info(f"strat")
     model=model_builder(config)
     json_file=json.load(open(config['json_path']))
     json_file_chunk=get_chunk(json_file, args.num_chunks, args.chunk_idx)
@@ -65,7 +67,7 @@ def eval_model(args):
     dataloader=create_data_loader(json_file_chunk,config['image_path'],batch_size=args.batchsize)
 
     for batch_index,batch in enumerate(tqdm(dataloader)):
-        try:
+        #try:
             output=model(batch)
             print(output)
             lock_file(save_path)
@@ -76,8 +78,8 @@ def eval_model(args):
                     ans_file.flush()
             unlock_file(save_path)
             logging.info(f"Processed batch {batch_index}: {batch}")
-        except Exception as e:
-            logging.info(f"error batch {batch_index}: {e}")
+        #except Exception as e:
+        #    logging.info(f"error batch {batch_index}: {e}")
 
 
 if __name__ == "__main__":
