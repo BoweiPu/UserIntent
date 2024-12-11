@@ -1,0 +1,7 @@
+7b_path: /home/pubw/proj/Qwen2-VL-7B-Instruct
+2b_path: /home/pubw/proj/Qwen2-VL-2B-Instruct
+json_path: /home/pubw/datasets/www25/train/train_task2.json
+image_path: /home/pubw/proj/UserIntent/masked/layout/
+save_path: save
+id:  base_train_task2_mask_layout
+model: base

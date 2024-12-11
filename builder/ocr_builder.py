@@ -4,6 +4,8 @@ import numpy as np
 import re
 from collections import Counter
 
+from paddleocr import PaddleOCR
+
 def build_ocr():
     return PaddleOCR(lang='ch') 
 

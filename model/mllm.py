@@ -8,18 +8,16 @@ from abc import ABC, abstractmethod
 
 
 
-class InferModel_base(nn.Module):
-    def __init__(self,path_2b='/home/pubw/proj/Qwen2-VL-2B-Instruct',path_7b='/home/pubw/proj/Qwen2-VL-7B-Instruct'):
+class InferModel_multi(nn.Module):
+    def __init__(self,vl_path='/home/pubw/proj/Qwen2-VL-7B-Instruct'):
         super().__init__()
-        self.llm_2b=build_llm(path_2b)
-        self.llm_7b=build_llm(path_7b)
-
+        self.llm_=build_llm(path)
         self.processor = AutoProcessor.from_pretrained("/home/pubw/proj/Qwen2-VL-7B-Instruct")
 
 
     # messages:[messages1, messages2,]
     @torch.no_grad()
-    def infer_llm(self,messages,llm_size='7b'):
+    def infer_llm(self,messages):
         
         texts = [
         self.processor.apply_chat_template(msg, tokenize=False, add_generation_prompt=True)
@@ -34,10 +32,7 @@ class InferModel_base(nn.Module):
             return_tensors="pt",
         )       
         inputs = inputs.to("cuda")
-        if llm_size=='7b':
-            output_ids = self.llm_7b.generate(**inputs, max_new_tokens=128)
-        elif llm_size=='2b':
-            output_ids = self.llm_2b.generate(**inputs, max_new_tokens=128)
+        output_ids = self.llm.generate(**inputs, max_new_tokens=1024)
         
         generated_ids = [
             output_ids[len(input_ids) :]
@@ -71,5 +66,5 @@ class InferModel_base(nn.Module):
                 "content": item_messages
             }])
         
-        output=self.infer_llm(messages_7b,'7b')
+        output=self.infer_llm(messages_7b)
         return output

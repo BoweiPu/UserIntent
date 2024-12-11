@@ -1,3 +1,4 @@
+import re
 import torch
 import torch.nn as nn
 from builder.LLM_builder import build_llm
@@ -6,7 +7,24 @@ from transformers import  AutoProcessor
 from qwen_vl_utils import process_vision_info
 from abc import ABC, abstractmethod
 
+def has_repeated_sequence(text):
+    # 确保字符串长度足够
+    if len(text) < 60:
+        return False
 
+    # 使用一个字典存储出现过的子串
+    seen = {}
+    
+    for length in range(4, len(text) // 2 + 1):
+        for i in range(len(text) - length * 9 + 1):
+            subsequence = text[i:i + length]
+            # 如果当前子串已经出现过并且出现次数超过9次，返回True
+            if subsequence in seen:
+                if seen[subsequence] >= 9:
+                    return True
+            # 记录当前子串
+            seen[subsequence] = seen.get(subsequence, 0) + 1
+    return False
 
 class InferModel_single(nn.Module):
     def __init__(self,path_llm='/home/pubw/proj/Qwen2-VL-7B-Instruct'):
@@ -17,7 +35,7 @@ class InferModel_single(nn.Module):
 
     # messages:[messages1, messages2,]
     @torch.no_grad()
-    def infer_llm(self,messages,llm_size='7b'):
+    def infer_llm(self,messages):
         
         texts = [
         self.processor.apply_chat_template(msg, tokenize=False, add_generation_prompt=True)
@@ -32,10 +50,7 @@ class InferModel_single(nn.Module):
             return_tensors="pt",
         )       
         inputs = inputs.to("cuda")
-        if llm_size=='7b':
-            output_ids = self.llm_7b.generate(**inputs, max_new_tokens=128)
-        elif llm_size=='2b':
-            output_ids = self.llm_2b.generate(**inputs, max_new_tokens=128)
+        output_ids = self.llm.generate(**inputs, max_new_tokens=8192)
         
         generated_ids = [
             output_ids[len(input_ids) :]
@@ -47,6 +62,25 @@ class InferModel_single(nn.Module):
         return output_text
     
     
-    @abstractmethod
-    def forward(self,messages):
-        pass
+    
+    def forward(self,image_path_list,text):
+        item_messages = []
+        for image_path in image_path_list:
+            item_messages.append( {
+                    "type": "image",
+                    "image": image_path  
+                })
+        item_messages.append({
+                "type": "text",
+                "text": text
+            })
+        input_mes=[[
+            {
+                "role": "user",
+                "content": item_messages
+            }]]
+        #print(input_mes)
+        output=self.infer_llm(input_mes)
+        #while has_repeated_sequence(output):
+         #   output=self.infer_llm(input_mes)
+        return output

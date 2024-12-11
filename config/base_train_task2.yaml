@@ -1,0 +1,7 @@
+7b_path: /home/pubw/proj/Qwen2-VL-7B-Instruct
+2b_path: /home/pubw/proj/Qwen2-VL-2B-Instruct
+json_path: /home/pubw/datasets/www25/train/train_task2_cls_defined-test.json
+image_path: /home/pubw/datasets/www25/train/images/
+save_path: save
+id:  base_train_task2
+model: base

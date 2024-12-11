@@ -1,0 +1,7 @@
+llm_path: /home/pubw/proj/Qwen2-VL-7B-Instruct
+json_path: /home/pubw/datasets/www25/train/train_task2.json
+image_path: /home/pubw/datasets/www25/train/images/
+caption_path: /home/pubw/proj/UserIntent/gen_rag/attri_color/output.jsonl
+save_path: gen_rag
+id: rag_test
+

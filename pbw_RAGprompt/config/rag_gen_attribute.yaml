@@ -1,0 +1,6 @@
+llm_path: /home/pubw/proj/Qwen2-VL-72B-Instruct
+json_path: /home/pubw/datasets/www25/train/train_task2.json
+image_path: /home/pubw/datasets/www25/train/images/
+save_path: gen_rag
+id: attri_color_7b
+
